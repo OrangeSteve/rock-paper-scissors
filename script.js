@@ -47,8 +47,31 @@ confirm("Would you like to Play Again?")?playGame():alert("Thanks for playing!!!
 }
 
 function playRound() {
+
+let playerHasSelected=false;//has player made a valid choice
+let playerInput=``;//players input
+let promptMessage=`Make your choice: ROCK, PAPER or SCISSORS? `;//message to be displayed in prompt box.
+
+//While the player hasnt made a valid choice. 
+//Prompt player for a choice
+//If that choice is one of the three valid choices then continue
+//If it isnt then change the prompt message to inform player they have picked an invalid choice and display the prompt again.
+while (playerHasSelected===false){ 
+    playerInput=prompt(promptMessage).toUpperCase();
+    
+if(playerInput===ROCK||playerInput===PAPER||playerInput===SCISSORS){
+    playerHasSelected=true;
+}else {
+   promptMessage=`${playerInput} is not a valid selection.
+   Make your choice: ROCK, PAPER or SCISSORS? `;
+}
+}
+
+
+
+
     //Ask player to make a choice
-    const playerSelection = prompt("Make your choice: ROCK, PAPER or SCISSORS? ").toUpperCase();
+    const playerSelection = playerInput;
 
     //CPU Makes a choice
     const computerSelection = computerPlay();
