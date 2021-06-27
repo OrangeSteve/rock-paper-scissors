@@ -1,119 +1,231 @@
-
 const ROCK = "ROCK";
 const PAPER = "PAPER";
 const SCISSORS = "SCISSORS";
 
+
+//round Info Container
+const roundInfoContainer = document.createElement(`div`);
+roundInfoContainer.setAttribute("id", "round-info-container");
+
+const roundNumberInfoText = document.createElement(`span`);
+roundNumberInfoText.setAttribute("id", "round-number-info");
+gameLengthInfoText = document.createElement(`span`);
+gameLengthInfoText.setAttribute("id", "game-length-info");
+
+roundInfoContainer.appendChild(roundNumberInfoText);
+roundInfoContainer.appendChild(gameLengthInfoText);
+//RoundInfoContainer end
+
+//Main Content -- Scores and Game
+const mainContent = document.createElement(`div`);
+mainContent.setAttribute("id", "main-content");
+//Player Name and Scores
+const playerNameScoreContainer = document.createElement(`div`);
+playerNameScoreContainer.setAttribute("id", "player-name-score-container");
+
+const playerNameInfoText = document.createElement(`span`);
+playerNameInfoText.setAttribute("id", "player-name-info-text");
+const playerScoreInfoText = document.createElement(`span`);
+playerScoreInfoText.setAttribute("id", "player-score-info-text");
+
+playerNameScoreContainer.appendChild(playerNameInfoText);
+playerNameScoreContainer.appendChild(playerScoreInfoText);
+//Player Name and Scores end
+
+//Game Container
+const gameContainer = document.createElement(`div`);
+gameContainer.setAttribute("id", "game-container");
+
+const instructionMessageContainer = document.createElement(`div`);
+instructionMessageContainer.setAttribute("id", "instruction-message-container");
+
+const instructionMessage = document.createElement(`span`);
+instructionMessage.setAttribute("id", "instruction-message");
+instructionMessage.textContent = `Make your choice: ROCK, PAPER or SCISSORS?`;
+
+instructionMessageContainer.appendChild(instructionMessage);
+
+const buttonContainer = document.createElement(`div`);
+buttonContainer.setAttribute("id", "button-container");
+
+gameContainer.appendChild(instructionMessageContainer);
+gameContainer.appendChild(buttonContainer);
+//Game Container end
+
+//Computer Name and Score
+const computerNameScoreContainer = document.createElement(`div`);
+computerNameScoreContainer.setAttribute("id", "computer-name-score-container");
+
+const computerNameInfoText = document.createElement(`span`);
+computerNameInfoText.setAttribute("id", "computer-name-info-text");
+computerNameInfoText.textContent = `Computer`;
+const computerScoreInfoText = document.createElement(`span`);
+computerScoreInfoText.setAttribute("id", "computer-score-info-text");
+
+computerNameScoreContainer.appendChild(computerNameInfoText);
+computerNameScoreContainer.appendChild(computerScoreInfoText);
+//Computer name and Score end
+mainContent.appendChild(playerNameScoreContainer);
+mainContent.appendChild(gameContainer);
+mainContent.appendChild(computerNameScoreContainer);
+//Main content end
+
+const roundResultInfoContainer = document.createElement(`div`);
+roundResultInfoContainer.setAttribute("id", "round-result-info-container");
+
+const roundResultInfoText = document.createElement(`span`);
+roundResultInfoText.setAttribute("id", "round-result-info");
+
+
+roundResultInfoContainer.appendChild(roundResultInfoText);
+
+//RoundInfoContainer end
+
+
+
+const gameSettingsPopUp = document.createElement(`div`);
+gameSettingsPopUp.setAttribute("id", "game-settings-popup");
+
+
+playerNameInputText = document.createElement(`INPUT`);
+playerNameInputText.setAttribute("type", "text");
+playerNameInputText.setAttribute("placeholder", "Enter your name");
+playerNameInputText.setAttribute("maxlength", "12");
+
+const gameLengthSliderLabel = document.createElement(`span`);
+gameLengthSliderLabel.setAttribute("id", "game-length-slider-label");
+gameLengthSliderLabel.textContent = `Play 5 rounds`;
+
+const gameLengthInputSlider = document.createElement(`INPUT`);
+gameLengthInputSlider.setAttribute("id", "game-length-input-slider");
+gameLengthInputSlider.setAttribute("type", "range");
+gameLengthInputSlider.setAttribute("min", "1");
+gameLengthInputSlider.setAttribute("max", "10");
+gameLengthInputSlider.setAttribute("value", "5");
+gameLengthInputSlider.oninput = () => {
+    gameLengthSliderLabel.textContent = `Play ${gameLengthInputSlider.value} round`;
+    if (gameLengthInputSlider.value > 1) {
+        gameLengthSliderLabel.textContent = gameLengthSliderLabel.textContent + `s`;
+    }
+};
+const confirmSettingsButton = document.createElement(`button`);
+confirmSettingsButton.textContent = `Start Game`;
+confirmSettingsButton.classList.add("choice-button");
+
+gameSettingsPopUp.appendChild(playerNameInputText);
+gameSettingsPopUp.appendChild(gameLengthSliderLabel);
+gameSettingsPopUp.appendChild(gameLengthInputSlider);
+gameSettingsPopUp.appendChild(confirmSettingsButton);
+
+document.body.appendChild(gameSettingsPopUp);
+
+
+const rockButton = document.createElement(`button`);
+rockButton.classList.add(`choice-button`);
+rockButton.textContent = ROCK;
+rockButton.addEventListener(`click`, () => {
+    playerSelection = ROCK;
+    computerSelection = computerPlay();
+    playRound(playerSelection, computerSelection);
+
+});
+
+const paperButton = document.createElement(`button`);
+paperButton.classList.add(`choice-button`);
+paperButton.textContent = PAPER;
+paperButton.addEventListener(`click`, () => {
+    playerSelection = PAPER;
+    computerSelection = computerPlay();
+    playRound(playerSelection, computerSelection);
+
+});
+
+const scissorsButton = document.createElement(`button`);
+scissorsButton.classList.add(`choice-button`);
+scissorsButton.textContent = SCISSORS;
+scissorsButton.addEventListener(`click`, () => {
+    playerSelection = SCISSORS;
+    computerSelection = computerPlay();
+    playRound(playerSelection, computerSelection);
+
+});
+
+let playerName = ``;
 let playerScore;
 let computerScore;
+let currentRound;
+let gameLength;
 
-//Play the Game
-playGame();
-
-
-//Get a string containing information about whether the player won or lost or whether it was a draw.
-//This makes up part of the string displaying the final results of the game
-function getGameResult(){
-if (playerScore>computerScore){
-    return `Player WINS!!!`;
-}else if (playerScore<computerScore){
-    return `Computer WINS!!!`;
-}else{
-    return `It's a DRAW!!!`;
-}
-
-}
+confirmSettingsButton.addEventListener(`click`, () => {
+    if (playerName == ``) {
+        playerName = playerNameInputText.value;
+        playerNameInputText.remove();
+        if (playerName == ``) {
+            playerName = `Player`;
+        }
+    }
+    gameLength = gameLengthInputSlider.value;
+    gameSettingsPopUp.remove();
+    playGame();
+})
 
 
-function playGame(){
-    //Set Scores to 0 before a new Game
-    playerScore=0;
-    computerScore=0;
-for (let i=0;i<5;i++){
-    //show current round and score in console
-    console.log(`Round ${i}/5:   Current score is:   Player ${playerScore}    CPU ${computerScore}`);
-
-    //display result of current round
-console.log(playRound());
 
 
-}
-//display final results of game
-console.log(`Final Results:     Player ${playerScore}      CPU ${computerScore}.   ${getGameResult()} `);
 
-//display confirmation dialog asking if the player would like to play again. If yes run playGame function again.
-//If not then display an alert thanking the user for playing
-confirm("Would you like to Play Again?")?playGame():alert("Thanks for playing!!!");
+
+
+function playGame() {
+    playerNameInfoText.textContent = playerName;
+    playerScoreInfoText.textContent = `${playerScore = 0}`;
+    computerScoreInfoText.textContent = `${computerScore = 0}`;
+    roundNumberInfoText.textContent = `Round ${currentRound = 1}`;
+    gameLengthInfoText.textContent = `First to ${gameLength}`;
+    roundResultInfoText.textContent = ``;
+    buttonContainer.appendChild(rockButton);
+    buttonContainer.appendChild(paperButton);
+    buttonContainer.appendChild(scissorsButton);
+    document.body.appendChild(roundInfoContainer);
+    document.body.appendChild(mainContent);
+    document.body.appendChild(roundResultInfoContainer);
 
 }
 
-function playRound() {
 
-let playerHasSelected=false;//has player made a valid choice
-let playerInput=``;//players input
-let promptMessage=`Make your choice: ROCK, PAPER or SCISSORS? `;//message to be displayed in prompt box.
-
-//While the player hasnt made a valid choice. 
-//Prompt player for a choice
-//If that choice is one of the three valid choices then continue
-//If it isnt then change the prompt message to inform player they have picked an invalid choice and display the prompt again.
-while (playerHasSelected===false){ 
-    playerInput=prompt(promptMessage).toUpperCase();
-    
-if(playerInput===ROCK||playerInput===PAPER||playerInput===SCISSORS){
-    playerHasSelected=true;
-}else {
-   promptMessage=`${playerInput} is not a valid selection.
-   Make your choice: ROCK, PAPER or SCISSORS? `;
-}
-}
+function playRound(playerSelection, computerSelection) {
 
 
-
-
-    //Ask player to make a choice
-    const playerSelection = playerInput;
-
-    //CPU Makes a choice
-    const computerSelection = computerPlay();
-    
-
-    //If the choices are equal then it is a draw. 
-    //If not then check what the player chose and compare it with what the computer chose and increment the scores accordingly
-    //return the round result to be displayed in the console
     if (playerSelection === computerSelection) {
-        return `${playerSelection} and ${computerSelection} are evenly matched. It's a DRAW`;
+        roundResultInfoText.textContent = `${playerSelection} and ${computerSelection} are evenly matched. It's a DRAW`;
 
     } else if (playerSelection === ROCK) {
         switch (computerSelection) {
-            case PAPER: computerScore++; return `${computerSelection} covers ${playerSelection}. Computer WINS!!!`;
-            case SCISSORS: playerScore++; return `${playerSelection} crushes ${computerSelection}. Player WINS!!!`;
-         
-
-
+            case PAPER: computerScore++; roundResultInfoText.textContent = `${computerSelection} covers ${playerSelection}. Computer beats ${playerName}`; break;
+            case SCISSORS: playerScore++; roundResultInfoText.textContent = `${playerSelection} crushes ${computerSelection}. ${playerName} beats Computer`; break;
         }
 
-    }else if (playerSelection === PAPER) {
+    } else if (playerSelection === PAPER) {
         switch (computerSelection) {
-            case ROCK: playerScore++; return `${playerSelection} covers ${computerSelection}. Player WINS!!!`;
-            case SCISSORS: computerScore++; return `${computerSelection} cuts ${playerSelection}. Computer WINS!!!`;
-
-
+            case ROCK: playerScore++; roundResultInfoText.textContent = `${playerSelection} covers ${computerSelection}. ${playerName} beats Computer`; break;
+            case SCISSORS: computerScore++; roundResultInfoText.textContent = `${computerSelection} cuts ${playerSelection}. Computer beats ${playerName}`; break;
         }
 
-    }else if (playerSelection === SCISSORS) {
+    } else if (playerSelection === SCISSORS) {
         switch (computerSelection) {
-            case ROCK:computerScore++;return `${computerSelection} crushes ${playerSelection}. Computer WINS!!!`;
-            case PAPER:playerScore++;return `${playerSelection} cuts ${computerSelection}. Player WINS!!!`;
-
-
+            case ROCK: computerScore++; roundResultInfoText.textContent = `${computerSelection} crushes ${playerSelection}. Computer beats ${playerName}`; break;
+            case PAPER: playerScore++; roundResultInfoText.textContent = `${playerSelection} cuts ${computerSelection}. ${playerName} beats Computer`; break;
         }
 
     }
 
-
-
+    displayScore();
+    checkForWinner();
+    roundNumberInfoText.textContent = `Round ${++currentRound}`;
 
 }
+
+
+
 
 function computerPlay() {
     //generate a random number between 0 and 1 
@@ -131,6 +243,31 @@ function computerPlay() {
 
 }
 
-    
+function displayScore() {
+    computerScoreInfoText.textContent = computerScore;
+    playerScoreInfoText.textContent = playerScore;
+
+}
+
+
+function checkForWinner() {
+
+    if (playerScore == gameLength) {
+        roundResultInfoText.textContent = `${roundResultInfoText.textContent} ${gameLength} points to ${computerScore}`;
+        showPlayAgainButton();
+        return;
+    } else if (computerScore == gameLength) {
+        roundResultInfoText.textContent = `${roundResultInfoText.textContent} ${gameLength} points to ${playerScore}`;
+        showPlayAgainButton();
+        return;
+    }
+}
+
+
+function showPlayAgainButton() {
+    mainContent.remove();
+    document.body.appendChild(gameSettingsPopUp);
+}
+
 
 

@@ -1,12 +1,158 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,100&display=swap');
+
+
+
+    body {
+        background-color: red;
+        font-family: 'Barlow', sans-serif;
+        font-size: 3.5vw;
+        color: rgb(255, 255, 255);
+    }
+
+
+
+    #game-settings-popup {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #game-length-slider-label {
+        font-size: 2vw;
+    }
+
+    #round-info-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #game-length-info {
+        display: flex;
+        justify-self: flex-end;
+
+    }
+
+    #main-content {
+
+        display: flex;
+        flex-direction: row;
+        border: 4px solid white;
+        background-color: white;
+        border-radius: 15px;
+        justify-content: center;
+    }
+
+    #player-name-score-container,
+    #computer-name-score-container {
+        display: flex;
+        width: auto;
+        flex-direction: column;
+        align-items: center;
+        align-self: center;
+        text-align: justify;
+        margin: 5px;
+        font-size: 2.5vw;
+        color: red;
+        border-radius: 15px;
+        flex-shrink: 0;
+    }
+
+    #player-name-info-text,
+    #computer-name-info-text {
+
+        color: red;
+    }
+
+    #game-container {
+
+        background-color: red;
+        border-radius: 15px;
+        display: flex;
+        height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        align-content: center;
+        justify-content: space-evenly;
+        margin: 5px 15px;
+
+    }
+
+    #button-container {
+        margin: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+
+    #instruction-message-container {
+        margin: 10px;
+        display: flex;
+        flex-direction: row;
+        white-space: nowrap;
+    }
+
+    .choice-button {
+        display: flex;
+        flex-shrink: 2;
+        font-size: 3vw;
+        height: calc(font-size+5px);
+        width: 15vw;
+        justify-content: center;
+        margin: 15px;
+        text-align: center;
+        align-items: center;
+        padding: 0;
+        font-family: 'Barlow', sans-serif;
+        color: white;
+        background-color: red;
+        border: 3px solid white;
+        border-radius: 15px;
+        white-space: nowrap;
+    }
+
+    .choice-button:hover {
+        color: white;
+        background-color: darkred;
+        border-color: white;
+    }
+
+
+    .choice-button:active {
+        color: darkred;
+        background-color: white;
+        border-color: darkred;
+    }
+
+    #round-result-info-container {
+        display: flex;
+        flex-direction: column;
+        margin: 20px;
+        align-items: center;
+        background-color: white;
+        color: red;
+        border-radius: 15px;
+    }
+</style>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
 </head>
+
 <body>
+
     <script src="/script.js"></script>
 </body>
+
 </html>
